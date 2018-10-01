@@ -8,7 +8,7 @@ export const signupFormState = {
     cpassword:  {...inputElementState}
 }
 
-const signupFormData = (state = {}, action) => {
+const signupFormData = (state = signupFormState, action) => {
     switch(action.type){
         case ac.SU_S_N:
             return {...state, name: action.value}
@@ -19,7 +19,7 @@ const signupFormData = (state = {}, action) => {
         case ac.SU_S_CP:
             return {...state, cpassword: action.value}
         default:
-            return signupFormState;            
+            return state;            
     }
 }
 

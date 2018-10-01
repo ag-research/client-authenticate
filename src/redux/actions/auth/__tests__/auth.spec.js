@@ -1,16 +1,20 @@
 import { ac } from "../../constants";
-import { logIn, logOut } from "../";
+import { setAuthenticating, setAuthenticated } from "../";
 
 describe('auth action creator', () => {
-    it('should create LOG_IN action', () => {
-        expect(logIn).toEqual({
-            type: ac.LOG_IN
+    it('should create SET_AUTHENTICATED action', () => {
+        const authed = false;
+        expect(setAuthenticated(authed)).toEqual({
+            type: ac.AUTH_ED,
+            value: authed
         })
     })
-
-    it('should create LOG_OUT action', () => {
-        expect(logOut).toEqual({
-            type: ac.LOG_OUT
+    
+    it('should create SET_AUTHENTICATING action', () => {
+        const authin = false;
+        expect(setAuthenticating(authin)).toEqual({
+            type: ac.AUTH_IN,
+            value: authin
         })
     })
 })

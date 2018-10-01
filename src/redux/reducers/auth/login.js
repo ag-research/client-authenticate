@@ -6,14 +6,14 @@ export const loginFormState = {
     password: {...inputElementState}
 }
 
-const loginFormData = (state = {}, action) => {
+const loginFormData = (state = loginFormState, action) => {
     switch(action.type){
         case ac.LI_S_E:
             return {...state, email: action.value}
         case ac.LI_S_P:
             return {...state, password: action.value}
         default:
-            return loginFormState;            
+            return state;            
     }
 }
 

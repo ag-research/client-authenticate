@@ -19,7 +19,7 @@ describe('<AuthBox />', () => {
         expect(wrapper.find(LoginForm)).toHaveLength(1)
     })
     
-    it('should render login form', () => {
+    it('should render sign up form', () => {
         wrapper.setProps({type: SIGNUP_PAGE_TYPE})
         expect(wrapper.find(SignupForm)).toHaveLength(1)
     })

@@ -3,86 +3,122 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types'
 
 import * as fm from '../../../../helpers/formvalidator'
+import Wrapper from '../../../zutils/Wrapper';
 import { signupSetName, signupSetPassword, signupSetEmail, signupSetConfirmPassword } from '../../../../redux/actions/auth/signup';
+import { setAuthenticating } from '../../../../redux/actions/auth';
 
 class SignupForm extends Component {
-    setFormName(e){
+    setFormName(value) {
         const { setName } = this.props;
-        const isValid = fm.isValidName(e.target.value);
+        const isValid = fm.isValidName(value);
         setName({
-            value: e.target.value,
-            faulty: isValid,
-            error: !isValid ? "Please enter a valid name" : "" 
+            value: value,
+            faulty: !isValid,
+            error: !isValid ? "Please enter a valid name" : ""
         })
     }
-    setFormEmail(e){
+    setFormEmail(value) {
         const { setEmail } = this.props;
-        const isValid = fm.isValidEmail(e.target.value);
+        const isValid = fm.isValidEmail(value);
         setEmail({
-            value: e.target.value,
-            faulty: isValid,
-            error: !isValid ? "Please enter a valid email" : "" 
+            value: value,
+            faulty: !isValid,
+            error: !isValid ? "Please enter a valid email" : ""
         })
     }
-    setFormPassword(e){
-        const { setPassword } = this.props;
-        const isValid = fm.isValidPassword(e.target.value);
+    setFormPassword(value) {
+        const { setPassword, setConfirmPassword, formdata: { cpassword }  } = this.props;
+        const isValid = fm.isValidPassword(value);
         setPassword({
-            value: e.target.value,
-            faulty: isValid,
-            error: !isValid ? "Please enter a valid password" : "" 
+            value: value,
+            faulty: !isValid,
+            error: !isValid ? "Password must be more than 8 characters and must contain a number, a lowercase and an uppercase letter" : ""
         })
+        if(value !== cpassword.value && !cpassword.faulty){
+            setConfirmPassword({
+                ...cpassword,
+                faulty: true,
+                error: "Passwords don't match"
+            })
+        }else if(value === cpassword.value) {
+            setConfirmPassword({
+                ...cpassword,
+                faulty: false,
+                error: ""
+            })            
+        }
     }
-    setFormConfirmPassword(e){
+    setFormConfirmPassword(value) {
         const { setConfirmPassword, formdata: { password } } = this.props;
-        const isValid = fm.isValidPassword(e.target.value);
+        const isValid = (value === password.value);
         setConfirmPassword({
-            value: e.target.value,
-            faulty: isValid,
-            error: (!isValid ? "Please enter a valid password" : password.value.length !== 0 && e.target.value !== password ?  "Passwords don't match" : "")
+            value: value,
+            faulty: !isValid,
+            error: ( !isValid ? "Passwords don't match" : "")
         })
     }
-    submitForm(){
-        
+    submitForm() {
+        const { formdata, setAuthenticating } = this.props;
+        for (let key in formdata) {
+            if (formdata[key].faulty) return null;
+        }
+        setAuthenticating(true);
     }
     render() {
-        const { formdata: { name, email, password, cpassword } } = this.props;
+        const { formdata: { name, email, password, cpassword }, authenticating } = this.props;
         return (
             <div className="auth-form-content">
                 <div className="row">
                     <div className="col-md-12">
-                        <form onSubmit={e => {e.preventDefault()}}>
+                        <form onSubmit={e => { e.preventDefault(); this.submitForm() }}>
+
                             <div className="form-group">
                                 <label>Name <span className="important">*</span></label>
                                 <div className="input-group">
-                                    <input type="text" name="name" className={ "form-control" + name.faulty ? " input-error" : "" }
-                                        onInput={e => this.setFormName(e)} />
+                                    <input type="text" name="name" defaultValue={name.value}
+                                        className={"form-control" + (name.faulty ? " input-error" : "")}
+                                        onInput={e => this.setFormName(e.target.value)} disabled={authenticating} />
                                 </div>
+                                {name.faulty ? <Wrapper> <small className="important"> {name.error} </small> </Wrapper> : ""}
                             </div>
+
                             <div className="form-group">
                                 <label>Email <span className="important">*</span></label>
                                 <div className="input-group">
-                                    <input type="email" name="email" className={ "form-control" + email.faulty ? " input-error" : "" } 
-                                        onInput={e => this.setFormEmail(e)} />
+                                    <input type="text" name="email" defaultValue={email.value}
+                                        className={"form-control" + (email.faulty ? " input-error" : "")}
+                                        onInput={e => this.setFormEmail(e.target.value)} disabled={authenticating} />
                                 </div>
+                                {email.faulty ? <Wrapper> <small className="important"> {email.error} </small> </Wrapper> : ""}
                             </div>
+
                             <div className="form-group">
                                 <label>Password <span className="important">*</span></label>
                                 <div className="input-group">
-                                    <input type="password" name="password" className={ "form-control" + password.faulty ? " input-error" : "" } 
-                                        onInput={e => this.setFormPassword(e)} />
+                                    <input type="password" name="password" defaultValue={password.value}
+                                        className={"form-control" + (password.faulty ? " input-error" : "")}
+                                        onInput={e => this.setFormPassword(e.target.value)} disabled={authenticating} />
                                 </div>
+                                {password.faulty ? <Wrapper> <small className="important"> {password.error} </small> </Wrapper> : ""}
                             </div>
+
                             <div className="form-group">
                                 <label>Confirm Password <span className="important">*</span></label>
                                 <div className="input-group">
-                                    <input type="password" name="cpassword" className={ "form-control" + cpassword.faulty ? " input-error" : "" } 
-                                        onInput={e => this.setFormConfirmPassword(e)} />
+                                    <input type="password" name="cpassword" defaultValue={cpassword.value}
+                                        className={"form-control" + (cpassword.faulty ? " input-error" : "")}
+                                        onInput={e => this.setFormConfirmPassword(e.target.value)} disabled={authenticating} />
                                 </div>
+                                {cpassword.faulty ? <Wrapper> <small className="important"> {cpassword.error} </small> </Wrapper> : ""}
                             </div>
+
                             <div className="form-group mt-5">
-                                <button className="btn btn-default btn-block auth-btn" type="submit">
-                                    SIGN UP
+                                <button className="btn btn-default btn-block auth-btn" type="submit" disabled={authenticating}>
+                                    {authenticating ?
+                                        <Wrapper>
+                                            <img className="btn-loader" src="/static/icons/small-loader-white.gif" alt="..." />
+                                            SIGNING UP...
+                                         </Wrapper> : "SIGN UP"}
                                 </button>
                             </div>
                         </form>
@@ -104,6 +140,7 @@ SignupForm.propTypes = {
 
 const mapStateToProps = state => ({
     formdata: state.signupFormData,
+    authenticating: state.auth.authenticating
 })
 
 const mapDispatchToProps = dispatch => ({
@@ -111,6 +148,7 @@ const mapDispatchToProps = dispatch => ({
     setEmail: email => dispatch(signupSetEmail(email)),
     setPassword: password => dispatch(signupSetPassword(password)),
     setConfirmPassword: cpassword => dispatch(signupSetConfirmPassword(cpassword)),
+    setAuthenticating: value => dispatch(setAuthenticating(value)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(SignupForm)

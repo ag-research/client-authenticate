@@ -1,25 +1,32 @@
-import auth from "../";
-import { logIn, logOut } from "../../../actions/auth";
+import auth, { initState } from "../";
+import { setAuthenticating, setAuthenticated } from "../../../actions/auth";
 
 describe('auth reducer', () => {
+    let oldAuthState = {};
+    let newAuthState = {}
+
+    afterEach(() => {
+        oldAuthState = newAuthState
+    })
+
     it('should handle initial state', () => {
-        expect( auth(undefined, '') )
-            .toEqual({
-                authenticated: false
-            })
+        newAuthState = auth(undefined, '');
+        expect( newAuthState ).toEqual(initState)
     })
 
-    it('should handle LOG_IN action', () => {
-        expect( auth({ authenticated: false }, logIn) )
-            .toEqual({
-                authenticated: true
-            })
+    it('should handle AUTH_ED action', () => {
+        newAuthState = auth(oldAuthState, setAuthenticated(true))
+        expect( newAuthState ).toEqual({
+            ...oldAuthState,
+            authenticated: true
+        })
     })
-
-    it('should handle LOG_OUT action', () => {
-        expect( auth({ authenticated: true }, logOut) )
-            .toEqual({
-                authenticated: false
-            })
+    
+    it('should handle AUTH_IN action', () => {
+        newAuthState = auth(oldAuthState, setAuthenticating(true))
+        expect( newAuthState ).toEqual({
+            ...oldAuthState,
+            authenticating: true
+        })
     })
 })
