@@ -1,0 +1,31 @@
+.form-notifier{
+    width: 100%;
+    background-color: #cccccc;
+    padding: 1px 10px 2px 10px;
+    border-radius: 2px;
+    border: 1px solid #777777;
+}
+
+.form-notifier .failure{
+    color: red;
+}
+
+.form-notifier .success{
+    color: #005703;
+}
+
+.input-notifier{
+    width: 100%;
+}
+
+.input-notifier .failure{
+    color: red;
+}
+
+.input-notifier .success{
+    color: #005703;
+}
+
+.input-notifier small{
+    font-size: 10px;
+}

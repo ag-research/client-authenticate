@@ -1,0 +1,16 @@
+.dashboard-main{
+    max-width: 100%;
+    overflow: hidden;
+    overflow-y: auto;
+    position: relative;
+}
+.dashboard-round-box{
+    margin: 0px auto;
+    border: 1px solid #cccccc;
+    overflow: hidden;
+    border-radius: 50px;
+}
+.profile-img{
+    border-radius: 100px;
+    width: 125px;
+}

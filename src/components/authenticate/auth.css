@@ -1,0 +1,31 @@
+.authenticate-main{
+    max-width: 100%;
+    padding: 5px;
+    overflow: hidden;
+    overflow-y: autho;
+    position: relative;
+}
+.authenticate-box{
+    width: 400px;
+    margin: 0px auto;
+    border-radius: 5px;
+}
+.auth-form-header{
+    color: #EFEFEF;
+    padding: 25px 10px;
+    border-radius: 5px 5px 0px 0px;
+}
+.auth-form-header p{
+    margin: 0px;
+    font-size: 22px;
+}
+.auth-form-content{
+    padding: 5px 30px;
+}
+.auth-btn,
+.auth-btn:hover,
+.auth-btn:focus,
+.auth-btn:active{
+    color: #EFEFEF;
+    background-color: #1d1d1b !important;
+}
