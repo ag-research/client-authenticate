@@ -1,4 +1,4 @@
-const namex = /^[A-Za-z-]{2,}$/
+const namex = /^[A-Za-z-\s]{2,}$/
 const emex = /^[A-Za-z0-9-_.]+@[A-Za-z0-9-.]+\.[A-za-z]{2,6}$/
 const pasex = /^(((?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])))(?=.{8,})/
 
