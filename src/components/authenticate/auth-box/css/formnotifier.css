@@ -22,6 +22,11 @@
     color: red;
 }
 
+.input-error{
+    color: #e9692c;
+    border-color: #FC0C0C
+}
+
 .input-notifier .success{
     color: #005703;
 }

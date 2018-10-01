@@ -30,9 +30,7 @@ export const Root = ({ authenticated, location }) => {
 }
 
 Root.propTypes = {
-    user: PropTypes.shape({
-        authenticated: PropTypes.bool.isRequired
-    })
+    authenticated: PropTypes.bool.isRequired
 }
 
 const mapStateToProps = state => ({
