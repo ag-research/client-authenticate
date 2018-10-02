@@ -2,12 +2,13 @@ import { takeLatest, call, put } from 'redux-saga/effects'
 import { ac } from '../../../actions/constants';
 import Axios from 'axios';
 import { setProfile } from '../../../actions/profile';
+import { apifetchprofileurl } from '../../../../helpers/url';
 
 export function *fetchUserProfile(){    
     try {
-        const res = yield call(Axios.get, fetchprofileurl);
+        const res = yield call(Axios.get, apifetchprofileurl);
         if(res.data.status === "success"){
-            yield put(setProfile(r.data.data))
+            yield put(setProfile(res.data.data))
         }
     } catch (error) {
         

@@ -4,8 +4,8 @@ import Axios from 'axios';
 import { apifetchprofileurl } from '../../../../helpers/url';
 
 describe('profile saga', () => {
+    const gen = fetchUserProfile();
     it('must call axios to fetch user profile', () => {
-        const gen = fetchUserProfile();
-        expect(gen.next()).toStrictEqual(call(Axios.get, apifetchprofileurl))
+        expect(gen.next().value).toEqual(call(Axios.get, apifetchprofileurl))
     })
 })

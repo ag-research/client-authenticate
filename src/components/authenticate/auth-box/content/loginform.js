@@ -1,11 +1,13 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom'
 import PropTypes from 'prop-types'
 
 import * as fm from '../../../../helpers/formvalidator'
 import { loginSetEmail, loginSetPassword, loginSubmit } from '../../../../redux/actions/auth/login';
 import Wrapper from '../../../zutils/Wrapper';
 import { setAuthenticating } from '../../../../redux/actions/auth';
+import { dashboardurl } from '../../../../helpers/url';
 
 class LoginForm extends Component {
     setFormEmail(value){
@@ -32,7 +34,10 @@ class LoginForm extends Component {
             if(formdata[key].faulty || formdata[key].value.length === 0) return null;
         }
         setAuthenticating(true);
-        loginSubmit();
+        loginSubmit(() => this.setBrowserLocation());
+    }
+    setBrowserLocation(){
+        this.props.history.replace(dashboardurl);
     }
     render() {
         const { formdata: { email, password}, authenticating } = this.props;
@@ -98,8 +103,8 @@ const mapDispatchToProps = dispatch => ({
     setEmail: email => dispatch(loginSetEmail(email)),
     setPassword: password => dispatch(loginSetPassword(password)),
     setAuthenticating: value => dispatch(setAuthenticating(value)),
-    loginSubmit: () => dispatch(loginSubmit)
+    loginSubmit: callback => dispatch(loginSubmit(callback))
 })
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(LoginForm)
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(LoginForm))

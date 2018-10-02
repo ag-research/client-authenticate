@@ -13,6 +13,7 @@ describe('login action creator', () => {
     })
 
     it('should create LOGIN_SUBMIT action', () => {
-        expect(loginSubmit).toEqual({ type: ac.LI_SUB })
+        const callback = jest.fn();
+        expect(loginSubmit(callback)).toEqual({ type: ac.LI_SUB, callback: callback })
     })
 })

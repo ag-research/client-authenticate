@@ -23,6 +23,7 @@ describe('signup action creator', () => {
     })
     
     it('should create SIGNUP_SUBMIT action', () => {
-        expect(signupSubmit).toEqual({ type: ac.SU_SUB })
+        const callback = jest.fn();
+        expect(signupSubmit(callback)).toEqual({ type: ac.SU_SUB, callback: callback })
     })
 })

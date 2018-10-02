@@ -1,4 +1,5 @@
 import { setProfile, fetchProfile } from ".";
+import { ac } from "../constants";
 
 describe('profile action creator', () => {
     it('should create FETCH_PROFILE action', () => {

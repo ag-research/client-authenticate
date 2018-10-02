@@ -1,11 +1,13 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom'
 import PropTypes from 'prop-types'
 
 import * as fm from '../../../../helpers/formvalidator'
 import Wrapper from '../../../zutils/Wrapper';
 import { signupSetName, signupSetPassword, signupSetEmail, signupSetConfirmPassword, signupSubmit } from '../../../../redux/actions/auth/signup';
 import { setAuthenticating } from '../../../../redux/actions/auth';
+import { dashboardurl } from '../../../../helpers/url';
 
 class SignupForm extends Component {
     setFormName(value) {
@@ -63,7 +65,10 @@ class SignupForm extends Component {
             if(formdata[key].faulty || formdata[key].value.length === 0) return null;
         }
         setAuthenticating(true);
-        signupSubmit();
+        signupSubmit(() => this.setBrowserLocation());
+    }
+    setBrowserLocation(){
+        this.props.history.replace(dashboardurl);
     }
     render() {
         const { formdata: { name, email, password, cpassword }, authenticating } = this.props;
@@ -151,7 +156,7 @@ const mapDispatchToProps = dispatch => ({
     setPassword: password => dispatch(signupSetPassword(password)),
     setConfirmPassword: cpassword => dispatch(signupSetConfirmPassword(cpassword)),
     setAuthenticating: value => dispatch(setAuthenticating(value)),
-    signupSubmit: () => dispatch(signupSubmit)
+    signupSubmit: callback => dispatch(signupSubmit(callback))
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(SignupForm)
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(SignupForm))

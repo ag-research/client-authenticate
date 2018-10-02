@@ -1,10 +1,11 @@
 import { isEmptyObject } from '../../../helpers/checkers';
 import { ac } from '../../actions/constants';
 
-const isAuthenticated = state => { 
-    const usertoken = localStorage.getItem('usertoken') || sessionStorage.getItem('usertoken') || "{}";
+const isAuthenticated = () => { 
+    const usertoken = localStorage.getItem('refresh_token') || "{}";
     return {authenticating: false, authenticated: !isEmptyObject(JSON.parse(usertoken))}
 }
+export const initState = isAuthenticated();
 
 export const auth = (state = isAuthenticated(), action) => {
     switch(action.type){       
