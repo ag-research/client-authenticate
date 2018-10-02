@@ -1,16 +1,18 @@
-import { takeLatest, call, put } from 'redux-saga/effects'
+import { takeLatest, call, put, select } from 'redux-saga/effects'
 import { ac } from '../../../actions/constants';
 import { apiloginurl } from '../../../../helpers/url';
 import Axios from 'axios';
 import { setAuthenticated } from '../../../actions/auth';
-import { setAccessToken, setAllTokens } from '../../../actions/auth/tokens';
-import { loadTokens } from '../utils/helpers';
+import { setAllTokens } from '../../../actions/auth/tokens';
+import { loadTokens, readLoginFormData } from '../utils/helpers';
+import { getLoginFormData } from '../utils/selectors';
 
 export function *loginUser(action){
+    const loginData = yield select(getLoginFormData);
     try {
-        const res = yield call(Axios.get, apiloginurl);
-        if(res.data.status === "success"){
-            yield put(setAllTokens(loadTokens(res.data.response)));
+        const res = yield call(Axios.post, apiloginurl, readLoginFormData(loginData));        
+        if(res.status === 200){
+            yield put(setAllTokens(loadTokens(res.data.payload)));
             yield put(setAuthenticated(true))
             yield call(action.callback)
         }
@@ -18,8 +20,6 @@ export function *loginUser(action){
         
     }
 }
-
-
 
 export default function *watchLoginActions(){
     yield takeLatest(ac.LI_SUB, loginUser)

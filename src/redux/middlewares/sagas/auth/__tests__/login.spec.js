@@ -1,22 +1,30 @@
-import { call, put } from 'redux-saga/effects'
+import { call, put, select } from 'redux-saga/effects'
 import Axios from "axios";
 import { loginUser } from "../login";
 import { apiloginurl } from "../../../../../helpers/url";
 import { setAuthenticated } from '../../../../actions/auth';
 import { setAllTokens } from '../../../../actions/auth/tokens';
-import { loadTokens } from '../../utils/helpers';
+import { loadTokens, readLoginFormData } from '../../utils/helpers';
+import { getLoginFormData } from '../../utils/selectors';
 
 describe('login saga', () => {
     const action = { callback: () => jest.fn()};
     const gen = loginUser(action);
-    const res = { data: { status: "success", response: {jwt: 'access_token', refresh_token: 'refresh_token'}}}
+    const res = { status: 200, data: { payload: { jwt: 'access_token', refresh_token: 'refresh_token'} } };
+
+    it('must select login form data from state', () => {
+        expect(gen.next().value).toEqual(select(getLoginFormData))
+    })
 
     it('must call axios to get login user', () => {
-        expect(gen.next().value).toEqual(call(Axios.get, apiloginurl))
+        const mockLoginData = {
+            name: { value: "" }, email: { value: "" }, password: { value: "" }
+        }
+        expect(gen.next(mockLoginData).value).toEqual(call(Axios.post, apiloginurl, readLoginFormData(mockLoginData)))
     })
     
     it('must put SET_ALL_TOKENS action', () => {
-        expect(gen.next(res).value).toEqual( put(setAllTokens(loadTokens(res.data.response))) )
+        expect(gen.next(res).value).toEqual( put(setAllTokens(loadTokens(res.data.payload))) )
     })
     
     it('must put SET_AUTHENTICATED action', () => {
