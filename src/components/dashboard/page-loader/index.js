@@ -7,23 +7,15 @@ import { fetchProfile } from '../../../redux/actions/profile';
 import { refreshTokenAction } from '../../../redux/actions/auth/tokens';
 
 class PageLoader extends Component{
-    constructor(){
-        super();
-        this.setTokens();
-    }
-
-    setTokens(){        
+    componentDidMount() {
         const { tokens: { accessToken }, doRefreshToken } = this.props;
         const expired = ((new Date().getTime() - parseInt(accessToken.timestamp, 10))/60) > accessToken.expires
         if(accessToken.value.length === 0 || expired){
             doRefreshToken()
         }else{
-            Axios.defaults.headers.common['x-access-token'] = accessToken;
+            Axios.defaults.headers.common['x-access-token'] = accessToken.value;
+            this.props.fetchProfile();
         }
-    }
-
-    componentDidMount() {
-        this.props.fetchProfile();
     }
     render(){
         const { dim } = this.props;

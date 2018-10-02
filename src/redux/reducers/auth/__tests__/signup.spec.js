@@ -1,5 +1,5 @@
 import signup, { signupFormState } from "../signup";
-import { signupSetName, signupSetEmail, signupSetPassword, signupSetConfirmPassword, signupSetSubmitResponse } from "../../../actions/auth/signup";
+import { signupSetName, signupSetEmail, signupSetPassword, signupSetConfirmPassword, signupSetSubmitResponse, signupFormReset } from "../../../actions/auth/signup";
 
 describe('signup reducer', () => {
     let oldSignUpFormState = {};
@@ -58,4 +58,9 @@ describe('signup reducer', () => {
             submit: submitRes
         })
     })
+
+    it('should handle sign up form reset action', () => {
+        newSignupFormState = signup(oldSignUpFormState, signupFormReset);
+        expect(newSignupFormState).toEqual(signupFormState)
+    })    
 })

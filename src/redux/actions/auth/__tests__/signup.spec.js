@@ -1,4 +1,4 @@
-import { signupSetName, signupSetEmail, signupSetPassword, signupSetConfirmPassword, signupSubmit, signupSetSubmitResponse } from "../signup";
+import { signupSetName, signupSetEmail, signupSetPassword, signupSetConfirmPassword, signupSubmit, signupSetSubmitResponse, signupFormReset } from "../signup";
 import { ac } from "../../constants";
 
 describe('signup action creator', () => {
@@ -30,5 +30,9 @@ describe('signup action creator', () => {
     it('should create SIGNUP_SET_SUBMIT_RESPONSE action', () => {
         const submit = 'response'
         expect(signupSetSubmitResponse(submit)).toEqual({ type: ac.SU_SUB_RES, value: submit })
+    })
+    
+    it('should create SIGNUP_FORM_RESET action', () => {
+        expect(signupFormReset).toEqual({ type: ac.SU_F_RES })
     })
 })

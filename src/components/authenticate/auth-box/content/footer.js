@@ -11,7 +11,7 @@ const Footer = ({ type, authenticating }) => {
         <Wrapper>
             {authenticating ? <br className="mb-4" /> :
                 <div className="auth-form-footer text-center mb-4">
-                    {type === LOGIN_PAGE_TYPE ? <p> <Link to={signupurl}> Don't have account yet? </Link> </p> : null}
+                    {type === LOGIN_PAGE_TYPE ? <p> <Link to={signupurl}> Don't have an account yet? </Link> </p> : null}
                     {type === SIGNUP_PAGE_TYPE ? <p> <Link to={loginurl}> Already have an account? </Link> </p> : null}
                 </div>
             }

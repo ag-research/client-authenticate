@@ -3,11 +3,11 @@ import { TOKEN_NEVER_EXPIRES, TOKEN_EXPIRES_IN_MIN } from "../../../helpers/opco
 
 export const initState = {
     accessToken: { value: "", expires: TOKEN_EXPIRES_IN_MIN, timestamp: ""},
-    refreshToken: { value: localStorage.getItem('refresh_token') || "", expires: TOKEN_NEVER_EXPIRES, timestamp: ""}
+    refreshToken: JSON.parse(localStorage.getItem('refresh_token') || "{}") || { value: "", expires: TOKEN_NEVER_EXPIRES, timestamp: ""}
 }
 
 const setAllToks = (tokens) => {
-    localStorage.setItem('refresh_token', tokens.refreshToken)    
+    localStorage.setItem('refresh_token', JSON.stringify(tokens.refreshToken))    
     return {accessToken: {...tokens.accessToken}, refreshToken: {...tokens.refreshToken} }
 }
 

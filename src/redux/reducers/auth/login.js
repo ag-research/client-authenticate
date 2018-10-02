@@ -15,6 +15,8 @@ const loginFormData = (state = loginFormState, action) => {
             return {...state, password: action.value}
         case ac.LI_SUB_RES:
             return {...state, submit: action.value}
+        case ac.LI_F_RES:
+            return loginFormState;
         default:
             return state;            
     }

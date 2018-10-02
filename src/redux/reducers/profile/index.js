@@ -2,6 +2,7 @@ import { ac } from "../../actions/constants";
 
 export const userProfile = () => {
     return {
+        email: "",
         name: "",
         profileimg: ""
     }

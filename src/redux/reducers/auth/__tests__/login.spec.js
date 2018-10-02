@@ -1,5 +1,5 @@
 import login, { loginFormState } from "../login";
-import { loginSetEmail, loginSetPassword, loginSetSubmitResponse } from "../../../actions/auth/login";
+import { loginSetEmail, loginSetPassword, loginSetSubmitResponse, loginFormReset } from "../../../actions/auth/login";
 
 describe('login reducer', () => {
     let oldLoginFormState = {};
@@ -39,5 +39,10 @@ describe('login reducer', () => {
             ...oldLoginFormState,
             submit: submitRes
         })
+    })    
+    
+    it('should handle login form reset action', () => {
+        newLoginFormState = login(oldLoginFormState, loginFormReset);
+        expect(newLoginFormState).toEqual(loginFormState)
     })    
 })

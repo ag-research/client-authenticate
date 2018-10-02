@@ -6,7 +6,7 @@ import PropTypes from 'prop-types'
 import * as fm from '../../../../helpers/formvalidator'
 import Wrapper from '../../../zutils/Wrapper';
 import FormNotifier from './formnotifier'
-import { signupSetName, signupSetPassword, signupSetEmail, signupSetConfirmPassword, signupSubmit, signupSetSubmitResponse } from '../../../../redux/actions/auth/signup';
+import { signupSetName, signupSetPassword, signupSetEmail, signupSetConfirmPassword, signupSubmit, signupSetSubmitResponse, signupFormReset } from '../../../../redux/actions/auth/signup';
 import { setAuthenticating } from '../../../../redux/actions/auth';
 import { dashboardurl } from '../../../../helpers/url';
 import { submitResponseState } from '../../../../helpers/opconstants';
@@ -73,7 +73,10 @@ class SignupForm extends Component {
         signupSubmit(() => this.setBrowserLocation());
     }
     setBrowserLocation(){
+        const { setAuthenticating, resetForm } = this.props;
         this.props.history.replace(dashboardurl);
+        resetForm();
+        setAuthenticating(false);
     }
     render() {
         const { formdata: { name, email, password, cpassword, submit }, authenticating } = this.props;
@@ -81,7 +84,7 @@ class SignupForm extends Component {
             <div className="auth-form-content">
                 <div className="row">
                     <div className="col-md-12">
-                        <form onSubmit={e => { e.preventDefault(); this.submitForm() }}>
+                        <form id="signup-form" onSubmit={e => { e.preventDefault(); this.submitForm() }}>
 
                             {submit.faulty ?
                                 <div className="form-group">
@@ -171,7 +174,8 @@ const mapDispatchToProps = dispatch => ({
     setConfirmPassword: cpassword => dispatch(signupSetConfirmPassword(cpassword)),
     setAuthenticating: value => dispatch(setAuthenticating(value)),
     signupSubmit: callback => dispatch(signupSubmit(callback)),
-    setSubmitResponse: response => dispatch(signupSetSubmitResponse(response))
+    setSubmitResponse: response => dispatch(signupSetSubmitResponse(response)),
+    resetForm: () => dispatch(signupFormReset)
 })
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(SignupForm))

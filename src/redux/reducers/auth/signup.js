@@ -21,6 +21,8 @@ const signupFormData = (state = signupFormState, action) => {
             return {...state, cpassword: action.value}
         case ac.SU_SUB_RES:
             return {...state, submit: action.value}
+        case ac.SU_F_RES:
+            return signupFormState;
         default:
             return state;            
     }

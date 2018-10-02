@@ -1,4 +1,4 @@
-import { loginSetEmail, loginSetPassword, loginSubmit, loginSetSubmitResponse } from "../login";
+import { loginSetEmail, loginSetPassword, loginSubmit, loginSetSubmitResponse, loginFormReset } from "../login";
 import { ac } from "../../constants";
 
 describe('login action creator', () => {
@@ -20,5 +20,9 @@ describe('login action creator', () => {
     it('should create LOGIN_SET_SUBMIT_RESPONSE action', () => {
         const submit = 'response'
         expect(loginSetSubmitResponse(submit)).toEqual({ type: ac.LI_SUB_RES, value: submit })
+    })
+    
+    it('should create LOGIN_FORM_RESET action', () => {
+        expect(loginFormReset).toEqual({ type: ac.LI_F_RES })
     })
 })

@@ -14,6 +14,14 @@ export const mountAccessToken = (response, time) => {
     return { value: response.jwt, expires: TOKEN_EXPIRES_IN_MIN, timestamp: time }
 }
 
+export const mountProfile = data => {
+    return {
+        name: data.name,
+        email: data.email,
+        profileimg: data.avatar_url
+    }
+}
+
 export const readLoginFormData = data => {
     if(isEmptyObject(data)) return {};
     return {

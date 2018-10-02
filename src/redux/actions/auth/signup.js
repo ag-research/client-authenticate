@@ -6,3 +6,4 @@ export const signupSetPassword = password => ({ type: ac.SU_S_P, value: password
 export const signupSetConfirmPassword = password => ({ type: ac.SU_S_CP, value: password })
 export const signupSubmit = callback => ({ type: ac.SU_SUB, callback: callback }) //saga captures
 export const signupSetSubmitResponse = details => ({type: ac.SU_SUB_RES, value: details})
+export const signupFormReset = {type: ac.SU_F_RES}

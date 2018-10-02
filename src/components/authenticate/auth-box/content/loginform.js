@@ -4,7 +4,7 @@ import { withRouter } from 'react-router-dom'
 import PropTypes from 'prop-types'
 
 import * as fm from '../../../../helpers/formvalidator'
-import { loginSetEmail, loginSetPassword, loginSubmit, loginSetSubmitResponse } from '../../../../redux/actions/auth/login';
+import { loginSetEmail, loginSetPassword, loginSubmit, loginSetSubmitResponse, loginFormReset } from '../../../../redux/actions/auth/login';
 import Wrapper from '../../../zutils/Wrapper';
 import FormNotifier from './formnotifier'
 import { setAuthenticating } from '../../../../redux/actions/auth';
@@ -42,7 +42,10 @@ class LoginForm extends Component {
         loginSubmit(() => this.setBrowserLocation());
     }
     setBrowserLocation() {
+        const { setAuthenticating, resetForm } = this.props;
         this.props.history.replace(dashboardurl);
+        resetForm();
+        setAuthenticating(false);
     }
     render() {
         const { formdata: { email, password, submit }, authenticating } = this.props;
@@ -50,7 +53,7 @@ class LoginForm extends Component {
             <div className="auth-form-content">
                 <div className="row">
                     <div className="col-md-12">
-                        <form onSubmit={e => { e.preventDefault(); this.submitForm() }}>
+                        <form id="login-form" onSubmit={e => { e.preventDefault(); this.submitForm() }}>
 
                             {submit.faulty ?
                                 <div className="form-group">
@@ -118,7 +121,8 @@ const mapDispatchToProps = dispatch => ({
     setPassword: password => dispatch(loginSetPassword(password)),
     setAuthenticating: value => dispatch(setAuthenticating(value)),
     loginSubmit: callback => dispatch(loginSubmit(callback)),
-    setSubmitResponse: response => dispatch(loginSetSubmitResponse(response))
+    setSubmitResponse: response => dispatch(loginSetSubmitResponse(response)),
+    resetForm: () => dispatch(loginFormReset)
 })
 
 
