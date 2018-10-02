@@ -1,4 +1,4 @@
-import { loginSetEmail, loginSetPassword, loginSubmit } from "../login";
+import { loginSetEmail, loginSetPassword, loginSubmit, loginSetSubmitResponse } from "../login";
 import { ac } from "../../constants";
 
 describe('login action creator', () => {
@@ -15,5 +15,10 @@ describe('login action creator', () => {
     it('should create LOGIN_SUBMIT action', () => {
         const callback = jest.fn();
         expect(loginSubmit(callback)).toEqual({ type: ac.LI_SUB, callback: callback })
+    })
+    
+    it('should create LOGIN_SET_SUBMIT_RESPONSE action', () => {
+        const submit = 'response'
+        expect(loginSetSubmitResponse(submit)).toEqual({ type: ac.LI_SUB_RES, value: submit })
     })
 })

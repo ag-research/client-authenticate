@@ -5,6 +5,7 @@ import PropTypes from 'prop-types'
 
 import * as fm from '../../../../helpers/formvalidator'
 import Wrapper from '../../../zutils/Wrapper';
+import FormNotifier from './formnotifier'
 import { signupSetName, signupSetPassword, signupSetEmail, signupSetConfirmPassword, signupSubmit } from '../../../../redux/actions/auth/signup';
 import { setAuthenticating } from '../../../../redux/actions/auth';
 import { dashboardurl } from '../../../../helpers/url';
@@ -71,12 +72,20 @@ class SignupForm extends Component {
         this.props.history.replace(dashboardurl);
     }
     render() {
-        const { formdata: { name, email, password, cpassword }, authenticating } = this.props;
+        const { formdata: { name, email, password, cpassword, submit }, authenticating } = this.props;
         return (
             <div className="auth-form-content">
                 <div className="row">
                     <div className="col-md-12">
                         <form onSubmit={e => { e.preventDefault(); this.submitForm() }}>
+
+                            {submit.faulty ?
+                                <div className="form-group">
+                                    <FormNotifier statusclass="failure">
+                                        {submit.error_msg}
+                                    </FormNotifier>
+                                </div> : ""
+                            }
 
                             <div className="form-group">
                                 <label>Name <span className="important">*</span></label>
@@ -140,7 +149,8 @@ SignupForm.propTypes = {
         name: PropTypes.object.isRequired,
         email: PropTypes.object.isRequired,
         password: PropTypes.object.isRequired,
-        cpassword: PropTypes.object.isRequired
+        cpassword: PropTypes.object.isRequired,
+        submit: PropTypes.object.isRequired
     }),
     authenticating: PropTypes.bool.isRequired
 }

@@ -1,4 +1,4 @@
-import { signupSetName, signupSetEmail, signupSetPassword, signupSetConfirmPassword, signupSubmit } from "../signup";
+import { signupSetName, signupSetEmail, signupSetPassword, signupSetConfirmPassword, signupSubmit, signupSetSubmitResponse } from "../signup";
 import { ac } from "../../constants";
 
 describe('signup action creator', () => {
@@ -25,5 +25,10 @@ describe('signup action creator', () => {
     it('should create SIGNUP_SUBMIT action', () => {
         const callback = jest.fn();
         expect(signupSubmit(callback)).toEqual({ type: ac.SU_SUB, callback: callback })
+    })
+    
+    it('should create SIGNUP_SET_SUBMIT_RESPONSE action', () => {
+        const submit = 'response'
+        expect(signupSetSubmitResponse(submit)).toEqual({ type: ac.SU_SUB_RES, value: submit })
     })
 })

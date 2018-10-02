@@ -1,11 +1,12 @@
 import { ac } from "../../actions/constants";
-import { inputElementState } from "../../../helpers/opconstants";
+import { inputElementState, submitResponseState } from "../../../helpers/opconstants";
 
 export const signupFormState = {
     name:  {...inputElementState},
     email:  {...inputElementState},
     password:  {...inputElementState},
-    cpassword:  {...inputElementState}
+    cpassword:  {...inputElementState},
+    submit: {...submitResponseState}
 }
 
 const signupFormData = (state = signupFormState, action) => {
@@ -18,6 +19,8 @@ const signupFormData = (state = signupFormState, action) => {
             return {...state, password: action.value}
         case ac.SU_S_CP:
             return {...state, cpassword: action.value}
+        case ac.SU_SUB_RES:
+            return {...state, submit: action.value}
         default:
             return state;            
     }

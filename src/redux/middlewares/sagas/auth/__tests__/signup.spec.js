@@ -6,11 +6,13 @@ import { setAuthenticated } from '../../../../actions/auth';
 import { setAllTokens } from '../../../../actions/auth/tokens';
 import { loadTokens, readSignUpFormData } from '../../utils/helpers';
 import { getSignUpFormData } from '../../utils/selectors';
+import { ac } from '../../../../actions/constants';
+import { submitResponseState } from '../../../../../helpers/opconstants';
 
 describe('signup saga', () => {
     const action = { callback: () => jest.fn()};
     const gen = signupUser(action);
-    const res = { status: 200, data: { payload: {jwt: 'access_token', refresh_token: 'refresh_token'} } };
+    const res = { status: 200, data: {jwt: 'access_token', refresh_token: 'refresh_token'} };
 
     it('must select sign up form data from state', () => {
         expect(gen.next().value).toEqual(select(getSignUpFormData))
@@ -22,9 +24,13 @@ describe('signup saga', () => {
         }
         expect(gen.next(mockSignUpData).value).toEqual(call(Axios.post, apisignupurl, readSignUpFormData(mockSignUpData)))
     })
-
+    
     it('must put SET_ALL_TOKENS action', () => {
-        expect(gen.next(res).value).toEqual( put(setAllTokens(loadTokens(res.data.payload))) )
+        expect(gen.next(res).value).toEqual( put(setAllTokens(loadTokens(res.data))) )
+    })
+    
+    it('must put SIGNUP_SET_SUBMIT_RESPONSE action', () => {
+        expect(gen.next().value).toEqual( put({ type: ac.SU_SUB_RES, value: { ...submitResponseState } }) )
     })
 
     it('must put SET_AUTHENTICATED action', () => {

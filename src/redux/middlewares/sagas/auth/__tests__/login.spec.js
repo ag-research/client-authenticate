@@ -6,11 +6,13 @@ import { setAuthenticated } from '../../../../actions/auth';
 import { setAllTokens } from '../../../../actions/auth/tokens';
 import { loadTokens, readLoginFormData } from '../../utils/helpers';
 import { getLoginFormData } from '../../utils/selectors';
+import { ac } from '../../../../actions/constants';
+import { submitResponseState } from '../../../../../helpers/opconstants';
 
 describe('login saga', () => {
     const action = { callback: () => jest.fn()};
     const gen = loginUser(action);
-    const res = { status: 200, data: { payload: { jwt: 'access_token', refresh_token: 'refresh_token'} } };
+    const res = { status: 200, data: { jwt: 'access_token', refresh_token: 'refresh_token'} };
 
     it('must select login form data from state', () => {
         expect(gen.next().value).toEqual(select(getLoginFormData))
@@ -24,7 +26,11 @@ describe('login saga', () => {
     })
     
     it('must put SET_ALL_TOKENS action', () => {
-        expect(gen.next(res).value).toEqual( put(setAllTokens(loadTokens(res.data.payload))) )
+        expect(gen.next(res).value).toEqual( put(setAllTokens(loadTokens(res.data))) )
+    })
+    
+    it('must put LOGIN_SET_SUBMIT_RESPONSE action', () => {
+        expect(gen.next().value).toEqual( put({ type: ac.LI_SUB_RES, value: { ...submitResponseState } }) )
     })
     
     it('must put SET_AUTHENTICATED action', () => {

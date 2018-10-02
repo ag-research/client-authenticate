@@ -1,5 +1,5 @@
 import signup, { signupFormState } from "../signup";
-import { signupSetName, signupSetEmail, signupSetPassword, signupSetConfirmPassword } from "../../../actions/auth/signup";
+import { signupSetName, signupSetEmail, signupSetPassword, signupSetConfirmPassword, signupSetSubmitResponse } from "../../../actions/auth/signup";
 
 describe('signup reducer', () => {
     let oldSignUpFormState = {};
@@ -47,6 +47,15 @@ describe('signup reducer', () => {
         expect(newSignupFormState).toEqual({
             ...oldSignUpFormState,
             cpassword: cpassword
+        })
+    })
+    
+    it('should handle submit action response', () => {
+        const submitRes = 'response'
+        newSignupFormState = signup(oldSignUpFormState, signupSetSubmitResponse(submitRes));
+        expect(newSignupFormState).toEqual({
+            ...oldSignUpFormState,
+            submit: submitRes
         })
     })
 })

@@ -1,9 +1,10 @@
 import { ac } from "../../actions/constants";
-import { inputElementState } from "../../../helpers/opconstants";
+import { inputElementState, submitResponseState } from "../../../helpers/opconstants";
 
 export const loginFormState = {
     email: {...inputElementState},
-    password: {...inputElementState}
+    password: {...inputElementState},
+    submit: {...submitResponseState}
 }
 
 const loginFormData = (state = loginFormState, action) => {
@@ -12,6 +13,8 @@ const loginFormData = (state = loginFormState, action) => {
             return {...state, email: action.value}
         case ac.LI_S_P:
             return {...state, password: action.value}
+        case ac.LI_SUB_RES:
+            return {...state, submit: action.value}
         default:
             return state;            
     }
