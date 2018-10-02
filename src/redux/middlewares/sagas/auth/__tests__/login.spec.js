@@ -4,10 +4,10 @@ import { loginUser } from "../login";
 import { apiloginurl } from "../../../../../helpers/url";
 import { setAuthenticated } from '../../../../actions/auth';
 import { setAllTokens } from '../../../../actions/auth/tokens';
-import { loadTokens, readLoginFormData } from '../../utils/helpers';
+import { mountTokens, readLoginFormData } from '../../utils/helpers';
 import { getLoginFormData } from '../../utils/selectors';
-import { ac } from '../../../../actions/constants';
 import { submitResponseState } from '../../../../../helpers/opconstants';
+import { loginSetSubmitResponse } from '../../../../actions/auth/login';
 
 describe('login saga', () => {
     const action = { callback: () => jest.fn()};
@@ -22,15 +22,19 @@ describe('login saga', () => {
         const mockLoginData = {
             name: { value: "" }, email: { value: "" }, password: { value: "" }
         }
-        expect(gen.next(mockLoginData).value).toEqual(call(Axios.post, apiloginurl, readLoginFormData(mockLoginData)))
+        expect(gen.next(mockLoginData).value).toEqual(
+            call(Axios.post, apiloginurl, readLoginFormData(mockLoginData))
+        )
     })
     
     it('must put SET_ALL_TOKENS action', () => {
-        expect(gen.next(res).value).toEqual( put(setAllTokens(loadTokens(res.data))) )
+        const con = gen.next(res).value;
+        const time = con.PUT.action.value.accessToken.timestamp;
+        expect(con).toEqual( put(setAllTokens(mountTokens(res.data, time))) )
     })
     
     it('must put LOGIN_SET_SUBMIT_RESPONSE action', () => {
-        expect(gen.next().value).toEqual( put({ type: ac.LI_SUB_RES, value: { ...submitResponseState } }) )
+        expect(gen.next().value).toEqual( put(loginSetSubmitResponse({ ...submitResponseState })) )
     })
     
     it('must put SET_AUTHENTICATED action', () => {

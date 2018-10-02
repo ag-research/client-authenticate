@@ -1,7 +1,17 @@
 import { isEmptyObject } from "../../../../helpers/checkers";
+import { TOKEN_EXPIRES_IN_MIN, TOKEN_NEVER_EXPIRES } from "../../../../helpers/opconstants";
 
-export const loadTokens = response => {
-    return {accessToken: response.jwt, refreshToken: response.refresh_token}
+export const mountTokens = (response, time) => {
+    time = (typeof time === 'undefined') ? new Date().getTime() : time;
+    return {
+        accessToken: { value: response.jwt, expires: TOKEN_EXPIRES_IN_MIN, timestamp: time },
+        refreshToken: { value: response.refresh_token, expires: TOKEN_NEVER_EXPIRES, timestamp: time }
+    }
+}
+
+export const mountAccessToken = (response, time) => {
+    time = (typeof time === 'undefined') ? new Date().getTime() : time;
+    return { value: response.jwt, expires: TOKEN_EXPIRES_IN_MIN, timestamp: time }
 }
 
 export const readLoginFormData = data => {
@@ -18,5 +28,12 @@ export const readSignUpFormData = data => {
         name: data.name.value,
         email: data.email.value,
         password: data.password.value
+    }
+}
+
+export const readRefreshToken = tokens =>{
+    if(isEmptyObject(tokens)) return {};
+    return {
+        refresh_token: tokens.refreshToken.value
     }
 }

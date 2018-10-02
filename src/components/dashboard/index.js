@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import Axios from 'axios';
 
 import DashboardRootWrapper from './utils/drw';
 import Container from '../zutils/Container';
@@ -13,7 +12,6 @@ export class Dashboard extends Component {
     constructor() {
         super();
         document.title = "GSDLabs Dashboard";
-        Axios.defaults.headers.common['x-access-token'] = localStorage.getItem('');
     }
 
     componentWillMount() {
@@ -56,7 +54,6 @@ export class Dashboard extends Component {
                             </Container>
                         </div>
                     </DashboardRootWrapper>
-
                 }
             </Wrapper>
         )

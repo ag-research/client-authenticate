@@ -1,9 +1,27 @@
 import React, {Component} from 'react'
 import { connect } from 'react-redux';
+
+import Axios from 'axios';
 import Wrapper from '../../zutils/Wrapper';
 import { fetchProfile } from '../../../redux/actions/profile';
+import { refreshTokenAction } from '../../../redux/actions/auth/tokens';
 
 class PageLoader extends Component{
+    constructor(){
+        super();
+        this.setTokens();
+    }
+
+    setTokens(){        
+        const { tokens: { accessToken }, doRefreshToken } = this.props;
+        const expired = ((new Date().getTime() - parseInt(accessToken.timestamp, 10))/60) > accessToken.expires
+        if(accessToken.value.length === 0 || expired){
+            doRefreshToken()
+        }else{
+            Axios.defaults.headers.common['x-access-token'] = accessToken;
+        }
+    }
+
     componentDidMount() {
         this.props.fetchProfile();
     }
@@ -30,11 +48,13 @@ class PageLoader extends Component{
 }
 
 const mapStateToProps = state => ({
-    dim: state.dashboardscreen
+    dim: state.dashboardscreen,
+    tokens: state.tokens
 })
 
 const mapDispatchToProps = dispatch => ({
-    fetchProfile: () => dispatch(fetchProfile)     
+    fetchProfile: () => dispatch(fetchProfile),
+    doRefreshToken: () => dispatch(refreshTokenAction)
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(PageLoader);

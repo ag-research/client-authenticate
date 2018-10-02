@@ -16,6 +16,7 @@ export const ac = {
     S_ALL_TOK: "SET_ALL_TOKENS",
     S_A_TOK: "SET_ACCESS_TOKEN",
     S_R_TOK: "SET_REFRESH_TOKEN",
+    RE_TOK: "REFRESH_TOKENS",
     S_PROF: "SET_PROFILE",
     F_PROF: "FETCH_PROFILE"
 }

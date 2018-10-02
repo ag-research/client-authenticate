@@ -6,9 +6,10 @@ import PropTypes from 'prop-types'
 import * as fm from '../../../../helpers/formvalidator'
 import Wrapper from '../../../zutils/Wrapper';
 import FormNotifier from './formnotifier'
-import { signupSetName, signupSetPassword, signupSetEmail, signupSetConfirmPassword, signupSubmit } from '../../../../redux/actions/auth/signup';
+import { signupSetName, signupSetPassword, signupSetEmail, signupSetConfirmPassword, signupSubmit, signupSetSubmitResponse } from '../../../../redux/actions/auth/signup';
 import { setAuthenticating } from '../../../../redux/actions/auth';
 import { dashboardurl } from '../../../../helpers/url';
+import { submitResponseState } from '../../../../helpers/opconstants';
 
 class SignupForm extends Component {
     setFormName(value) {
@@ -61,11 +62,14 @@ class SignupForm extends Component {
         })
     }
     submitForm() {
-        const { formdata, setAuthenticating, signupSubmit } = this.props;
+        const { formdata, setAuthenticating, signupSubmit, setSubmitResponse } = this.props;
         for (let key in formdata) {
-            if(formdata[key].faulty || formdata[key].value.length === 0) return null;
+            if(key !== "submit"){
+                if (formdata[key].faulty || formdata[key].value.length === 0) return null;
+            }
         }
         setAuthenticating(true);
+        setSubmitResponse({...submitResponseState});
         signupSubmit(() => this.setBrowserLocation());
     }
     setBrowserLocation(){
@@ -166,7 +170,8 @@ const mapDispatchToProps = dispatch => ({
     setPassword: password => dispatch(signupSetPassword(password)),
     setConfirmPassword: cpassword => dispatch(signupSetConfirmPassword(cpassword)),
     setAuthenticating: value => dispatch(setAuthenticating(value)),
-    signupSubmit: callback => dispatch(signupSubmit(callback))
+    signupSubmit: callback => dispatch(signupSubmit(callback)),
+    setSubmitResponse: response => dispatch(signupSetSubmitResponse(response))
 })
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(SignupForm))

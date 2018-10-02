@@ -4,11 +4,12 @@ import { withRouter } from 'react-router-dom'
 import PropTypes from 'prop-types'
 
 import * as fm from '../../../../helpers/formvalidator'
-import { loginSetEmail, loginSetPassword, loginSubmit } from '../../../../redux/actions/auth/login';
+import { loginSetEmail, loginSetPassword, loginSubmit, loginSetSubmitResponse } from '../../../../redux/actions/auth/login';
 import Wrapper from '../../../zutils/Wrapper';
 import FormNotifier from './formnotifier'
 import { setAuthenticating } from '../../../../redux/actions/auth';
 import { dashboardurl } from '../../../../helpers/url';
+import { submitResponseState } from '../../../../helpers/opconstants';
 
 class LoginForm extends Component {
     setFormEmail(value) {
@@ -30,11 +31,14 @@ class LoginForm extends Component {
         })
     }
     submitForm() {
-        const { formdata, setAuthenticating, loginSubmit } = this.props;
+        const { formdata, setAuthenticating, loginSubmit, setSubmitResponse } = this.props;
         for (let key in formdata) {
-            if (formdata[key].faulty) return null;
+            if(key !== "submit"){
+                if (formdata[key].faulty || formdata[key].value.length === 0) return null;
+            }
         }
         setAuthenticating(true);
+        setSubmitResponse({...submitResponseState});
         loginSubmit(() => this.setBrowserLocation());
     }
     setBrowserLocation() {
@@ -113,7 +117,8 @@ const mapDispatchToProps = dispatch => ({
     setEmail: email => dispatch(loginSetEmail(email)),
     setPassword: password => dispatch(loginSetPassword(password)),
     setAuthenticating: value => dispatch(setAuthenticating(value)),
-    loginSubmit: callback => dispatch(loginSubmit(callback))
+    loginSubmit: callback => dispatch(loginSubmit(callback)),
+    setSubmitResponse: response => dispatch(loginSetSubmitResponse(response))
 })
 
 
