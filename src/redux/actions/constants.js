@@ -10,5 +10,7 @@ export const ac = {
     SU_SUB: "SIGNUP_SUBMIT",
     LI_S_E: "LOGIN_SET_EMAIL",
     LI_S_P: "LOGIN_SET_PASSWORD",
-    LI_SUB: "LOGIN_SUBMIT"
+    LI_SUB: "LOGIN_SUBMIT",
+    S_PROF: "SET_PROFILE",
+    F_PROF: "FETCH_PROFILE"
 }

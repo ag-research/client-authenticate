@@ -23,8 +23,8 @@
 }
 
 .input-error{
-    color: #e9692c;
-    border-color: #FC0C0C
+    color: #e9692c !important;
+    border-color: #FC0C0C !important;
 }
 
 .input-notifier .success{

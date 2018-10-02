@@ -1,14 +1,18 @@
+import { ac } from "../../actions/constants";
+
 export const userProfile = () => {
     return {
-        name: "Caleb",
-        profileimg: "/static/img/mock-dp.png"
+        name: "",
+        profileimg: ""
     }
 }
 
-const profile = (state = {}, action) => {
+const profile = (state = userProfile(), action) => {
     switch(action.type){
+        case ac.S_PROF:
+            return {...state, ...action.value};
         default:
-            return userProfile();
+            return state;
     }
 }
 

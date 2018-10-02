@@ -1,20 +1,23 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import Axios from 'axios';
 
 import DashboardRootWrapper from './utils/drw';
 import Container from '../zutils/Container';
 
 import './css/dashboard.css'
-// import ripplejs from '../../helpers/ripplejs';
+import Wrapper from '../zutils/Wrapper';
+import PageLoader from './page-loader';
 
 export class Dashboard extends Component {
-    constructor(){
-        super();        
-        document.title = "GSDLabs Dashboard"
+    constructor() {
+        super();
+        document.title = "GSDLabs Dashboard";
+        Axios.defaults.headers.common['x-access-token'] = localStorage.getItem('');
     }
 
-    componentWillMount(){
-        // ripplejs();
+    componentWillMount() {
+
     }
 
     onLogout() {
@@ -32,25 +35,30 @@ export class Dashboard extends Component {
             marginTop: dim.dashboardRoundBoxMarginTop
         }
         return (
-            <DashboardRootWrapper>
-                <div className="dashboard-main" style={ dmstyle }>
-                    <Container>
-                        <div className="dashboard-round-box rel-position bg-white" style = { drbstyle }>
-                            <div className="text-center mt-4">
-                                <p><img alt=" " className="profile-img" src={profileimg} /> </p>
-                                <p>Welcome {name}!</p>
-                                <p>
-                                    <button className="btn btn-primary elevation-10px-bottom rel-position"
-                                        onClick={ () => this.onLogout() }>
-                                        Logout
+            <Wrapper>
+                {name.length === 0 ? <PageLoader /> :
+                    <DashboardRootWrapper>
+                        <div className="dashboard-main" style={dmstyle}>
+                            <Container>
+                                <div className="dashboard-round-box rel-position bg-white" style={drbstyle}>
+                                    <div className="text-center mt-4">
+                                        <p><img alt=" " className="profile-img" src={profileimg} /> </p>
+                                        <p>Welcome {name}!</p>
+                                        <p>
+                                            <button className="btn btn-primary elevation-10px-bottom rel-position"
+                                                onClick={() => this.onLogout()}>
+                                                Logout
                                         <div className="rippleJS fill"></div>
-                                    </button>
-                                </p>
-                            </div>
+                                            </button>
+                                        </p>
+                                    </div>
+                                </div>
+                            </Container>
                         </div>
-                    </Container>
-                </div>
-            </DashboardRootWrapper>
+                    </DashboardRootWrapper>
+
+                }
+            </Wrapper>
         )
     }
 }

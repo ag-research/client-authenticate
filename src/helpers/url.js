@@ -6,4 +6,9 @@ export const loginurl = authurl + "/login"
 export const signupurl = authurl + "/signup"
 
 //API urls
-export const appurl = "http://gsdlabs.eu"
+export const appurl = ""
+export const apiloginurl = appurl + "/access-tokens"
+export const apisignupurl = appurl + "/users"
+export const apirefreshtokenurl = appurl + "/access-tokens/refresh"
+export const apilogouturl = appurl + "/access-tokens"
+export const apifetchprofileurl = appurl + "/me"

@@ -14,7 +14,7 @@ button:focus,
 .desktop{
     display: block;
 }
-.bg-primary{
+.bg-primary-dark{
     background-color: #1d1d1b !important;
 }
 .bg-orange-deep{

@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types'
 
 import * as fm from '../../../../helpers/formvalidator'
-import { loginSetEmail, loginSetPassword } from '../../../../redux/actions/auth/login';
+import { loginSetEmail, loginSetPassword, loginSubmit } from '../../../../redux/actions/auth/login';
 import Wrapper from '../../../zutils/Wrapper';
 import { setAuthenticating } from '../../../../redux/actions/auth';
 
@@ -27,11 +27,12 @@ class LoginForm extends Component {
         })
     }
     submitForm(){
-        const { formdata, setAuthenticating } = this.props;
+        const { formdata, setAuthenticating, loginSubmit } = this.props;
         for(let key in formdata){
-            if(formdata[key].faulty) return null;
+            if(formdata[key].faulty || formdata[key].value.length === 0) return null;
         }
         setAuthenticating(true);
+        loginSubmit();
     }
     render() {
         const { formdata: { email, password}, authenticating } = this.props;
@@ -84,7 +85,8 @@ LoginForm.propTypes = {
     formdata: PropTypes.shape({
         email: PropTypes.object.isRequired,
         password: PropTypes.object.isRequired
-    })
+    }),
+    authenticating: PropTypes.bool.isRequired
 }
 
 const mapStateToProps = state => ({
@@ -96,6 +98,7 @@ const mapDispatchToProps = dispatch => ({
     setEmail: email => dispatch(loginSetEmail(email)),
     setPassword: password => dispatch(loginSetPassword(password)),
     setAuthenticating: value => dispatch(setAuthenticating(value)),
+    loginSubmit: () => dispatch(loginSubmit)
 })
 
 

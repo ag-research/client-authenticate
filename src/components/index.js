@@ -16,7 +16,6 @@ export const isAuthUrl = location => {
     return location.pathname.match(authurl) !== null;
 }
 
-
 /**
  * Here we determine whether to render the dashboard or authentication screen
  */

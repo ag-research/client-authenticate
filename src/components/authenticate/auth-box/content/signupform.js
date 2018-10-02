@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 
 import * as fm from '../../../../helpers/formvalidator'
 import Wrapper from '../../../zutils/Wrapper';
-import { signupSetName, signupSetPassword, signupSetEmail, signupSetConfirmPassword } from '../../../../redux/actions/auth/signup';
+import { signupSetName, signupSetPassword, signupSetEmail, signupSetConfirmPassword, signupSubmit } from '../../../../redux/actions/auth/signup';
 import { setAuthenticating } from '../../../../redux/actions/auth';
 
 class SignupForm extends Component {
@@ -58,11 +58,12 @@ class SignupForm extends Component {
         })
     }
     submitForm() {
-        const { formdata, setAuthenticating } = this.props;
+        const { formdata, setAuthenticating, signupSubmit } = this.props;
         for (let key in formdata) {
-            if (formdata[key].faulty) return null;
+            if(formdata[key].faulty || formdata[key].value.length === 0) return null;
         }
         setAuthenticating(true);
+        signupSubmit();
     }
     render() {
         const { formdata: { name, email, password, cpassword }, authenticating } = this.props;
@@ -135,7 +136,8 @@ SignupForm.propTypes = {
         email: PropTypes.object.isRequired,
         password: PropTypes.object.isRequired,
         cpassword: PropTypes.object.isRequired
-    })
+    }),
+    authenticating: PropTypes.bool.isRequired
 }
 
 const mapStateToProps = state => ({
@@ -149,6 +151,7 @@ const mapDispatchToProps = dispatch => ({
     setPassword: password => dispatch(signupSetPassword(password)),
     setConfirmPassword: cpassword => dispatch(signupSetConfirmPassword(cpassword)),
     setAuthenticating: value => dispatch(setAuthenticating(value)),
+    signupSubmit: () => dispatch(signupSubmit)
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(SignupForm)

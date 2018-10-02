@@ -2,7 +2,7 @@
     max-width: 100%;
     padding: 5px;
     overflow: hidden;
-    overflow-y: autho;
+    overflow-y: auto;
     position: relative;
 }
 .authenticate-box{

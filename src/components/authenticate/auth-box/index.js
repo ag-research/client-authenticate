@@ -7,6 +7,8 @@ import LoginForm from './content/loginform';
 import SignupForm from './content/signupform';
 import { LOGIN_PAGE_TYPE, SIGNUP_PAGE_TYPE } from '../../../helpers/opconstants';
 
+import './css/formnotifier.css'
+
 export const AuthBox = ({ type, dim }) => {
     const abstyle = {
         marginTop: dim.authenticateBoxMarginTop 
