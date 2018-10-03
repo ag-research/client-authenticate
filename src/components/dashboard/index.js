@@ -8,6 +8,8 @@ import './css/dashboard.css'
 import Wrapper from '../zutils/Wrapper';
 import PageLoader from './page-loader';
 import { setAuthenticated } from '../../redux/actions/auth';
+import { setProfile } from '../../redux/actions/profile';
+import { userProfile } from '../../redux/reducers/profile';
 
 export class Dashboard extends Component {
     constructor() {
@@ -22,6 +24,7 @@ export class Dashboard extends Component {
     onLogout() {
         localStorage.setItem('refresh_token', null);
         this.props.setAuth(false);
+        this.props.setProfile(userProfile())
     }
 
     render() {
@@ -68,7 +71,8 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-    setAuth: val => dispatch(setAuthenticated(val))
+    setAuth: val => dispatch(setAuthenticated(val)),
+    setProfile: profile => dispatch(setProfile(profile))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Dashboard)
