@@ -2,8 +2,12 @@ import { isEmptyObject } from '../../../helpers/checkers';
 import { ac } from '../../actions/constants';
 
 const isAuthenticated = () => { 
+    const access_token = localStorage.getItem('access_token') || "{}";
     const refresh_token = localStorage.getItem('refresh_token') || "{}";
-    return {authenticating: false, authenticated: !isEmptyObject(JSON.parse(refresh_token))}
+    return {
+        authenticating: false, 
+        authenticated: !isEmptyObject(JSON.parse(refresh_token)) || !isEmptyObject(JSON.parse(access_token))
+    }
 }
 export const initState = isAuthenticated();
 
