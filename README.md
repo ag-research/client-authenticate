@@ -1,8 +1,6 @@
 ## GSDLabs Client Authentication
 
-This is a deliberate attempt to access the "exposed" authentication API built by the GSDLabs team. You provided the challenge, here is my response. 
-
-Okay, I'm sorry, it's not that serious ;-). This is just a UI to prove that the authentication API works!
+This is a UI to prove that the GSDLabs authentication API works!
 
 ## Installation
 
